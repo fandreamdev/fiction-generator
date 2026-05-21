@@ -1,0 +1,41 @@
+实体类：
+Novel 小说
+Character 人物设定
+WorldSetting 世界观
+Foreshadowing 伏笔
+WritingStyle 写作风格
+Volume 卷
+Chapter 章节 必须包含 Summary 字段
+人物动态状态
+人物关系图
+故事大事件 / 编年史时间线
+提示词模板库
+GenerationTask 生成任务集
+AI 味/质量检测规则
+
+结构关系
+1. 小说 (Novel)
+    ├── 1.1 分卷 (Volume)
+    │    └── 1.1.1 章节 (Chapter) 
+    │         ├── 章节核心: 章节大纲 (Outline) + 正文 (Content) + [章节摘要 (Summary)]
+    │         └── 包含多个 -> 2.3 状态更新快照、4.2 任务记录
+    │
+    ├── 2.1 人物卡 (Character - 静态设定)
+    │    └── 2.2 人物关系 (Relationship)
+    │    └── 2.3 人物动态状态 (CharacterState - 随章节更新)
+    │
+    ├── 3. 世界观 (WorldSetting - 条目化)
+    │    └── (衍生) 地理/物品/规则...
+    │
+    ├── 4. 剧情线索
+    │    ├── 4.1 伏笔 (Foreshadowing - 穿插在章节间)
+    │    └── 4.2 故事大事件时间线 (StoryEvent)
+    │
+    └── 5. 创作辅助
+         ├── 5.1 写作风格规则卡 (StyleCard - 注入 Prompt)
+         ├── 5.2 提示词模板 (PromptTemplate)
+         └── 5.3 异步任务池与版本历史 (GenerationTask - 管理生成草稿版)
+        
+
+步骤：
+1. 点击新建小说，生成一个小说空间
