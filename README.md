@@ -2,7 +2,7 @@
 
 一个为同人作者打造的"原作知识库 + AI 写作"一体化工具。把**原作 → 知识库 → 同人生成**做成闭环，让 AI 在每次生成时都"看过"原作设定和已写章节，避免 OOC、设定串台、长篇遗忘前情。
 
-> **当前状态**：设计阶段。仓库仅包含设计文档与原始素材，代码尚未启动。第一行代码将以 [MVP-0](specs/0002-mvp0-design.md) 为目标。
+> **当前状态**：MVP-0 S0 已启动。仓库已初始化 pnpm workspace、NestJS API、Vite React Web 与本地 docker-compose 依赖。
 
 ---
 
@@ -59,6 +59,13 @@ MVP-1 / MVP-2 文档为**增量 diff**：只描述相对前一期新增 / 修改
 ```
 fiction/
 ├── README.md                          ← 你正在读
+├── apps/
+│   ├── api/                            NestJS 后端
+│   └── web/                            Vite React 前端
+├── packages/
+│   └── shared/                         前后端共享类型
+├── docker-compose.yml                  本地 postgres + redis + minio
+├── pnpm-workspace.yaml                 pnpm workspace
 └── specs/
     ├── mvp.md                         业务输入：功能与 MVP 范围
     ├── process.md                     业务输入：创建流程 7 步
@@ -70,7 +77,7 @@ fiction/
     └── 0004-mvp2-design.md            MVP-2 增量设计（Week 12–18）
 ```
 
-随着代码落地，目录预计扩展为：
+后续阶段会继续扩展为：
 
 ```
 fiction/
@@ -86,23 +93,55 @@ fiction/
 ├── packages/
 │   ├── prompts/                       Prompt 模板与 registry
 │   └── shared/                        前后端共享类型
-├── prisma/                            schema 与迁移
+├── apps/api/prisma/                   schema 与迁移
 └── docker-compose.yml                 本地一键起 postgres + redis + minio
 ```
 
 ---
 
-## 开始开发（占位）
+## 开始开发
 
-代码尚未启动。MVP-0 开发启动后此节将补充：
+前置依赖：
 
-- 本地依赖安装
-- `docker-compose up` 起 postgres + pgvector + redis + minio
-- 数据库迁移与 seed
-- 前后端启动命令
-- 跑端到端测试的方法
+- Node.js `22.22.3`
+- Corepack / pnpm
+- Docker Desktop（用于 postgres / redis / minio）
 
-在此之前，[0002-mvp0-design.md §10 验收脚本](specs/0002-mvp0-design.md) 已经给出 MVP-0 完成后的手工跑通步骤，可作为开发目标对照。
+```bash
+corepack enable pnpm
+pnpm install
+cp .env.example .env
+docker compose up -d
+pnpm --filter api prisma generate
+pnpm --filter api prisma migrate dev --name init
+pnpm dev
+```
+
+常用命令：
+
+```bash
+pnpm --filter api dev
+pnpm --filter web dev
+pnpm --filter api build
+pnpm --filter web build
+pnpm --filter api lint
+pnpm --filter web lint
+pnpm --filter api llm:ping
+```
+
+本地入口：
+
+- Web: `http://localhost:5173`
+- API health: `http://localhost:3000/health`
+- BullMQ Dashboard: `http://localhost:3000/admin/queues`
+
+LLM 调用使用 OpenAI 兼容接口，在 `.env` 中配置：
+
+```bash
+LLM_API_KEY=
+LLM_MODEL=
+LLM_BASE_URL=
+```
 
 ---
 
