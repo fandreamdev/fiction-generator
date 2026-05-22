@@ -10,3 +10,10 @@ allowBuilds:
   "@scarf/scarf": false
   msgpackr-extract: false
   unrs-resolver: false
+  msw: false
+
+# Pin zod to v3.25.x (3.25.0 ships without dist/; later patches include
+# both root-zod-3 and `zod/v4` subpath that @modelcontextprotocol/sdk
+# (used by shadcn CLI) requires).
+overrides:
+  zod: 3.25.76
