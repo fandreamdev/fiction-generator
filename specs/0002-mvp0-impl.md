@@ -38,19 +38,19 @@
 
 ### 1.1 技术栈
 
-| 层 | 选择 |
-| --- | --- |
-| 包管理 | pnpm workspace |
-| 后端 | NestJS + TypeScript + Node.js 20+ |
-| ORM | Prisma |
-| 数据库 | PostgreSQL 16 + pgvector |
-| 队列 | BullMQ + Redis 7 |
-| 对象存储 | MinIO |
-| LLM | OpenAI 兼容接口，MVP-0 写死一个 Provider |
-| Embedding | `text-embedding-3-small`，1536 维 |
-| 前端 | React + TypeScript + Vite |
-| UI | Tailwind CSS + shadcn/ui |
-| 请求状态 | TanStack Query |
+| 层        | 选择                                     |
+| --------- | ---------------------------------------- |
+| 包管理    | pnpm workspace                           |
+| 后端      | NestJS + TypeScript + Node.js 20+        |
+| ORM       | Prisma                                   |
+| 数据库    | PostgreSQL 16 + pgvector                 |
+| 队列      | BullMQ + Redis 7                         |
+| 对象存储  | MinIO                                    |
+| LLM       | OpenAI 兼容接口，MVP-0 写死一个 Provider |
+| Embedding | `text-embedding-3-small`，1536 维        |
+| 前端      | React + TypeScript + Vite                |
+| UI        | Tailwind CSS + shadcn/ui                 |
+| 请求状态  | TanStack Query                           |
 
 > 注释：MVP-0 的技术栈优先选择“主流、资料多、能快速闭环”的组合，而不是最完美的长期架构。NestJS + Prisma + PostgreSQL 可以快速建立类型化后端；BullMQ + Redis 适合处理 LLM 调用这种耗时任务；MinIO 用来提前验证对象存储路径，避免 MVP-1 接入真实 S3 时重做上传模型。
 
@@ -59,7 +59,7 @@
 MVP-0 不做登录。所有请求自动注入：
 
 ```ts
-export const DEMO_USER_ID = '00000000-0000-0000-0000-000000000001';
+export const DEMO_USER_ID = "00000000-0000-0000-0000-000000000001";
 ```
 
 所有业务表仍然保留 `user_id` 字段。Service 查询必须带 `userId` 过滤，为 MVP-1 多用户做准备。
@@ -370,7 +370,7 @@ pnpm create vite apps/web --template react-ts
 cd apps/web
 pnpm add @tanstack/react-query axios zustand react-router-dom
 pnpm add clsx tailwind-merge lucide-react
-pnpm add -D tailwindcss postcss autoprefixer
+pnpm add tailwindcss @tailwindcss/vite
 pnpm dlx tailwindcss init -p
 cd ../..
 ```
@@ -380,7 +380,7 @@ cd ../..
 - `pnpm create vite apps/web --template react-ts`：用 Vite 创建 React + TypeScript 前端项目，目录是 `apps/web`。
 - `cd apps/web`：进入前端项目目录，让依赖安装到 `apps/web/package.json`。
 - `pnpm add @tanstack/react-query axios zustand react-router-dom`：安装前端运行时依赖。React Query 管接口数据，axios 发 HTTP 请求，router 管页面路由。
-- `pnpm add -D tailwindcss postcss autoprefixer`：安装样式构建相关开发依赖。
+- `pnpm add tailwindcss @tailwindcss/vite`：安装样式构建相关开发依赖。
 - `pnpm dlx tailwindcss init -p`：生成 `tailwind.config.js` 和 `postcss.config.js`。
 - 成功标志：`apps/web/src/main.tsx` 存在，`apps/web/package.json` 中出现这些依赖。
 
@@ -459,12 +459,22 @@ cd ../..
 创建 `packages/shared/src/index.ts`，先放 API DTO 类型和枚举字符串类型：
 
 ```ts
-export type ImportStatus = 'pending' | 'processing' | 'reviewing' | 'completed' | 'failed';
-export type ImportStage = 'cleaning' | 'splitting' | 'summarizing' | 'extracting' | 'embedding';
-export type CandidateType = 'CHARACTER' | 'WORLD_SETTING' | 'EVENT';
-export type CandidateStatus = 'pending' | 'approved' | 'rejected';
-export type ChapterStatus = 'draft' | 'generated' | 'final';
-export type GenerationTaskStatus = 'pending' | 'running' | 'success' | 'failed';
+export type ImportStatus =
+  | "pending"
+  | "processing"
+  | "reviewing"
+  | "completed"
+  | "failed";
+export type ImportStage =
+  | "cleaning"
+  | "splitting"
+  | "summarizing"
+  | "extracting"
+  | "embedding";
+export type CandidateType = "CHARACTER" | "WORLD_SETTING" | "EVENT";
+export type CandidateStatus = "pending" | "approved" | "rejected";
+export type ChapterStatus = "draft" | "generated" | "final";
+export type GenerationTaskStatus = "pending" | "running" | "success" | "failed";
 ```
 
 根目录安装依赖：
@@ -621,10 +631,10 @@ cd ../..
 创建 `apps/api/prisma/seed.ts`：
 
 ```ts
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
-const DEMO_USER_ID = '00000000-0000-0000-0000-000000000001';
+const DEMO_USER_ID = "00000000-0000-0000-0000-000000000001";
 
 async function main() {
   await prisma.user.upsert({
@@ -632,9 +642,9 @@ async function main() {
     update: {},
     create: {
       id: DEMO_USER_ID,
-      email: 'demo@local',
-      nickname: 'Demo User',
-      passwordHash: '<dummy-hash>',
+      email: "demo@local",
+      nickname: "Demo User",
+      passwordHash: "<dummy-hash>",
     },
   });
 }
@@ -666,16 +676,16 @@ cd ../..
 创建 `apps/api/src/common/constants.ts`：
 
 ```ts
-export const DEMO_USER_ID = '00000000-0000-0000-0000-000000000001';
+export const DEMO_USER_ID = "00000000-0000-0000-0000-000000000001";
 ```
 
 创建 `apps/api/src/common/demo-user.middleware.ts`：
 
 ```ts
-import { Injectable, NestMiddleware } from '@nestjs/common';
-import { DEMO_USER_ID } from './constants';
+import { Injectable, NestMiddleware } from "@nestjs/common";
+import { DEMO_USER_ID } from "./constants";
 
-declare module 'express-serve-static-core' {
+declare module "express-serve-static-core" {
   interface Request {
     userId: string;
   }
@@ -694,12 +704,12 @@ export class DemoUserMiddleware implements NestMiddleware {
 
 ```ts
 export const ErrorCodes = {
-  NOT_FOUND: 'NOT_FOUND',
-  VALIDATION_FAILED: 'VALIDATION_FAILED',
-  CONFLICT: 'CONFLICT',
-  LLM_PROVIDER_ERROR: 'LLM_PROVIDER_ERROR',
-  IMPORT_PARSE_FAILED: 'IMPORT_PARSE_FAILED',
-  INTERNAL_ERROR: 'INTERNAL_ERROR',
+  NOT_FOUND: "NOT_FOUND",
+  VALIDATION_FAILED: "VALIDATION_FAILED",
+  CONFLICT: "CONFLICT",
+  LLM_PROVIDER_ERROR: "LLM_PROVIDER_ERROR",
+  IMPORT_PARSE_FAILED: "IMPORT_PARSE_FAILED",
+  INTERNAL_ERROR: "INTERNAL_ERROR",
 } as const;
 ```
 
@@ -753,9 +763,9 @@ where: {
 创建 `apps/api/src/modules/queue/queue.constants.ts`：
 
 ```ts
-export const IMPORT_QUEUE = 'import-queue';
-export const EMBEDDING_QUEUE = 'embedding-queue';
-export const GENERATE_QUEUE = 'generate-queue';
+export const IMPORT_QUEUE = "import-queue";
+export const EMBEDDING_QUEUE = "embedding-queue";
+export const GENERATE_QUEUE = "generate-queue";
 ```
 
 创建 `QueueModule`，提供：
@@ -788,7 +798,7 @@ Redis 连接来自 `.env`：
 创建 `HealthController`：
 
 ```ts
-@Controller('health')
+@Controller("health")
 export class HealthController {
   @Get()
   get() {
@@ -831,8 +841,8 @@ export class CreateFandomDto {
   name!: string;
 
   @IsOptional()
-  @IsIn(['novel', 'anime', 'game', 'film', 'other'])
-  type?: string = 'novel';
+  @IsIn(["novel", "anime", "game", "film", "other"])
+  type?: string = "novel";
 
   @IsOptional()
   @IsString()
@@ -1174,7 +1184,7 @@ Controller：
 8. 投递 import queue：
 
 ```ts
-await importQueue.add('process-import', { importTaskId, userId });
+await importQueue.add("process-import", { importTaskId, userId });
 ```
 
 9. 返回 import task。
@@ -1302,11 +1312,11 @@ processImport(importTaskId: string, userId: string): Promise<void>
 2. 对每个 imported chapter summary 投递 embedding job：
 
 ```ts
-await embeddingQueue.add('embed-source', {
+await embeddingQueue.add("embed-source", {
   userId,
   fandomId,
   novelId: null,
-  sourceType: 'IMPORTED_CHAPTER_SUMMARY',
+  sourceType: "IMPORTED_CHAPTER_SUMMARY",
   sourceId: importedChapter.id,
   chunkText: importedChapter.summary,
   metadata: { chapterNo, title },
@@ -1365,7 +1375,7 @@ VALUES
 3. TypeScript 中将 `number[]` 转成 pgvector 字符串：
 
 ```ts
-const vector = `[${embedding.join(',')}]`;
+const vector = `[${embedding.join(",")}]`;
 ```
 
 > 注释：向量写入使用 raw SQL 是因为 Prisma 对 pgvector 的支持有限。把 embedding 逻辑独立成 worker/service，是为了让 imported summary、character、world setting、chapter summary 都复用同一条向量化路径，避免不同来源写入格式不一致。
@@ -1546,7 +1556,7 @@ buildGeneratePrompt(input: {
 3. 投递 generate queue：
 
 ```ts
-await generateQueue.add('generate-chapter', { taskId, userId, chapterId });
+await generateQueue.add("generate-chapter", { taskId, userId, chapterId });
 ```
 
 4. 返回 `{ taskId }`。
@@ -1594,7 +1604,7 @@ apps/api/src/workers/generate-worker.ts
 `countChineseLikeChars` MVP-0 简单实现：
 
 ```ts
-text.replace(/\s/g, '').length
+text.replace(/\s/g, "").length;
 ```
 
 > 注释：生成 worker 失败时不覆盖原正文，是为了避免用户已有内容被一次失败调用清空。MVP-0 自动覆盖只发生在成功生成后；“应用/丢弃候选稿”的更细体验留到后续版本。
@@ -1644,7 +1654,7 @@ Controller：
 4. 投递：
 
 ```ts
-await generateQueue.add('complete-chapter', { taskId, userId, chapterId });
+await generateQueue.add("complete-chapter", { taskId, userId, chapterId });
 ```
 
 5. 返回 `{ taskId }`。
@@ -1676,10 +1686,10 @@ await generateQueue.add('complete-chapter', { taskId, userId, chapterId });
 `apps/web/src/api/client.ts`：
 
 ```ts
-import axios from 'axios';
+import axios from "axios";
 
 export const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:3000',
+  baseURL: import.meta.env.VITE_API_BASE_URL ?? "http://localhost:3000",
 });
 ```
 
@@ -1953,13 +1963,13 @@ UI 状态：
 
 必须覆盖：
 
-| 文件 | 测试点 |
-| --- | --- |
-| `text-processing.service.spec.ts` | BOM、换行、空行、章节标题、滑窗 |
-| `prompt-builder.service.spec.ts` | 空段落省略、字段截断、RAG 拼接 |
-| `rag.service.spec.ts` | SQL 参数、sourceType top-k、novel/fandom 过滤 |
-| `extraction.service.spec.ts` | approve character、approve world、reject、冲突 409 |
-| `chapter.service.spec.ts` | 新建 chapterNo 自增、PUT wordCount |
+| 文件                              | 测试点                                             |
+| --------------------------------- | -------------------------------------------------- |
+| `text-processing.service.spec.ts` | BOM、换行、空行、章节标题、滑窗                    |
+| `prompt-builder.service.spec.ts`  | 空段落省略、字段截断、RAG 拼接                     |
+| `rag.service.spec.ts`             | SQL 参数、sourceType top-k、novel/fandom 过滤      |
+| `extraction.service.spec.ts`      | approve character、approve world、reject、冲突 409 |
+| `chapter.service.spec.ts`         | 新建 chapterNo 自增、PUT wordCount                 |
 
 执行：
 
@@ -2088,29 +2098,29 @@ pnpm dev
 
 MVP-0 必须实现：
 
-| 方法 | 路径 | 说明 |
-| --- | --- | --- |
-| POST | `/fandoms` | 新建 Fandom |
-| GET | `/fandoms` | Fandom 列表 |
-| GET | `/fandoms/:id` | Fandom 详情 |
-| GET | `/fandoms/:id/characters` | 人物列表，只读补充端点 |
-| GET | `/fandoms/:id/world-settings` | 世界观列表，只读补充端点 |
-| POST | `/fandoms/:id/imports` | 上传 txt 并创建导入任务 |
-| GET | `/imports/:id` | 导入任务详情 |
-| GET | `/imports/:id/chapters` | 导入章节列表 |
-| GET | `/imports/:id/candidates` | 候选列表 |
-| POST | `/candidates/:id/approve` | 接受候选 |
-| POST | `/candidates/:id/reject` | 拒绝候选 |
-| POST | `/novels` | 新建 Novel |
-| GET | `/novels` | Novel 列表 |
-| GET | `/novels/:id` | Novel 详情 |
-| POST | `/novels/:id/chapters` | 新建章节 |
-| GET | `/novels/:id/chapters` | 章节列表 |
-| GET | `/chapters/:id` | 章节详情 |
-| PUT | `/chapters/:id` | 保存章节 |
-| POST | `/chapters/:id/generate` | 触发 AI 生成 |
-| POST | `/chapters/:id/complete` | 完成本章 |
-| GET | `/generation-tasks/:id` | 查询任务 |
+| 方法 | 路径                          | 说明                     |
+| ---- | ----------------------------- | ------------------------ |
+| POST | `/fandoms`                    | 新建 Fandom              |
+| GET  | `/fandoms`                    | Fandom 列表              |
+| GET  | `/fandoms/:id`                | Fandom 详情              |
+| GET  | `/fandoms/:id/characters`     | 人物列表，只读补充端点   |
+| GET  | `/fandoms/:id/world-settings` | 世界观列表，只读补充端点 |
+| POST | `/fandoms/:id/imports`        | 上传 txt 并创建导入任务  |
+| GET  | `/imports/:id`                | 导入任务详情             |
+| GET  | `/imports/:id/chapters`       | 导入章节列表             |
+| GET  | `/imports/:id/candidates`     | 候选列表                 |
+| POST | `/candidates/:id/approve`     | 接受候选                 |
+| POST | `/candidates/:id/reject`      | 拒绝候选                 |
+| POST | `/novels`                     | 新建 Novel               |
+| GET  | `/novels`                     | Novel 列表               |
+| GET  | `/novels/:id`                 | Novel 详情               |
+| POST | `/novels/:id/chapters`        | 新建章节                 |
+| GET  | `/novels/:id/chapters`        | 章节列表                 |
+| GET  | `/chapters/:id`               | 章节详情                 |
+| PUT  | `/chapters/:id`               | 保存章节                 |
+| POST | `/chapters/:id/generate`      | 触发 AI 生成             |
+| POST | `/chapters/:id/complete`      | 完成本章                 |
+| GET  | `/generation-tasks/:id`       | 查询任务                 |
 
 > 注释：API 清单比设计文档多了两个只读实体列表端点，这是为了满足 MVP-0 前端“接受后实体表实时刷新”的页面需求。它们不改变 MVP-0 边界，因为不提供新增、编辑、删除实体能力。
 
