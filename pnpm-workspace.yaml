@@ -1,3 +1,12 @@
 packages:
   - "apps/*"
   - "packages/*"
+
+allowBuilds:
+  esbuild: true
+  prisma: true
+  "@prisma/engines": true
+  "@nestjs/core": false
+  "@scarf/scarf": false
+  msgpackr-extract: false
+  unrs-resolver: false
