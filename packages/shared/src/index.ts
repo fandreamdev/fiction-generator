@@ -1,0 +1,16 @@
+export type ImportStatus =
+  | 'pending'
+  | 'processing'
+  | 'reviewing'
+  | 'completed'
+  | 'failed'
+export type ImportStage =
+  | 'cleaning'
+  | 'splitting'
+  | 'summarizing'
+  | 'extracting'
+  | 'embedding'
+export type CandidateType = 'CHARACTER' | 'WORLD_SETTING' | 'EVENT'
+export type CandidateStatus = 'pending' | 'approved' | 'rejected'
+export type ChapterStatus = 'draft' | 'generated' | 'final'
+export type GenerationTaskStatus = 'pending' | 'running' | 'success' | 'failed'
