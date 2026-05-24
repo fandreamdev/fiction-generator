@@ -11,9 +11,28 @@ model User {
   /// 删除标识
   deletedFlag Boolean @default(false) @map("deleted_flag")
   /// 创建时间
-  createAt DateTime @db.Timestamptz(3) @default(now()) @map("create_at")
+  createdAt DateTime @db.Timestamptz(3) @default(now()) @map("created_at")
   /// 更新时间
-  updateAt DateTime @updatedAt @db.Timestamptz(3) @map("update_at")
+  updatedAt DateTime @updatedAt @db.Timestamptz(3) @map("updated_at")
+
+  /// 用户创建的原作或世界观
+  fandoms Fandom[]
+  /// 用户创建的小说
+  novels Novel[]
+  /// 用户发起的导入任务
+  importTasks ImportTask[]
+  /// 用户的抽取候选项
+  extractionCandidates ExtractionCandidate[]
+  /// 用户的人物设定
+  characters Character[]
+  /// 用户的世界设定
+  worldSettings WorldSetting[]
+  /// 用户的写作风格
+  writingStyles WritingStyle[]
+  /// 用户的向量文档
+  vectorDocuments VectorDocument[]
+  /// 用户的生成任务
+  generationTasks GenerationTask[]
 
   @@map("users")
 }

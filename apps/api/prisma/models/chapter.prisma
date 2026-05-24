@@ -34,9 +34,16 @@ model Chapter {
   /// 删除标识
   deletedFlag Boolean @default(false) @map("deleted_flag")
   /// 创建时间
-  createAt DateTime @db.Timestamptz(3) @default(now()) @map("create_at")
+  createdAt DateTime @db.Timestamptz(3) @default(now()) @map("created_at")
   /// 更新时间
-  updateAt DateTime @updatedAt @db.Timestamptz(3) @map("update_at")
+  updatedAt DateTime @updatedAt @db.Timestamptz(3) @map("updated_at")
+
+  /// 所属小说
+  novel Novel @relation(fields: [novelId], references: [id], onDelete: Cascade)
+  /// 所属分卷
+  volume Volume @relation(fields: [volumeId], references: [id], onDelete: Cascade)
+  /// 章节生成任务
+  generationTasks GenerationTask[]
 
   @@unique([novelId, chapterNo])
   @@index([novelId])

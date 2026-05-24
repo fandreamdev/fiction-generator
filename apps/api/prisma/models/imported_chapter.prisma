@@ -32,9 +32,16 @@ model ImportedChapter {
   /// 删除标识
   deletedFlag Boolean @default(false) @map("deleted_flag")
   /// 创建时间
-  createAt DateTime @db.Timestamptz(3) @default(now()) @map("create_at")
+  createdAt DateTime @db.Timestamptz(3) @default(now()) @map("created_at")
   /// 更新时间
-  updateAt DateTime @updatedAt @db.Timestamptz(3) @map("update_at")
+  updatedAt DateTime @updatedAt @db.Timestamptz(3) @map("updated_at")
+
+  /// 所属导入任务
+  importTask ImportTask @relation(fields: [importTaskId], references: [id], onDelete: Cascade)
+  /// 所属原作或世界观
+  fandom Fandom @relation(fields: [fandomId], references: [id], onDelete: Cascade)
+  /// 基于该导入章节抽取出的候选项
+  extractionCandidates ExtractionCandidate[]
 
   @@unique([importTaskId, chapterNo])
   @@index([importTaskId])

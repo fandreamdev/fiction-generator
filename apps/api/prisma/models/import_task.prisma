@@ -47,9 +47,18 @@ model ImportTask {
   /// 删除标识
   deletedFlag Boolean @default(false) @map("deleted_flag")
   /// 创建时间
-  createAt DateTime @db.Timestamptz(3) @default(now()) @map("create_at")
+  createdAt DateTime @db.Timestamptz(3) @default(now()) @map("created_at")
   /// 更新时间
-  updateAt DateTime @updatedAt @db.Timestamptz(3) @map("update_at")
+  updatedAt DateTime @updatedAt @db.Timestamptz(3) @map("updated_at")
+
+  /// 所属用户
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  /// 所属原作或世界观
+  fandom Fandom @relation(fields: [fandomId], references: [id], onDelete: Cascade)
+  /// 导入任务拆分出的章节
+  importedChapters ImportedChapter[]
+  /// 导入任务产生的抽取候选项
+  extractionCandidates ExtractionCandidate[]
 
   @@index([userId])
   @@index([fandomId])
