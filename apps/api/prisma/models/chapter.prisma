@@ -1,3 +1,14 @@
+enum ChapterStatus {
+  /// 草稿
+  DRAFT @map("draft")
+  /// 已生成
+  GENERATED @map("generated")
+  /// 定稿
+  FINAL @map("final")
+
+  @@map("chapter_status")
+}
+
 model Chapter {
   /// 主键
   id BigInt @id @default(autoincrement())
@@ -18,7 +29,7 @@ model Chapter {
   /// 字数
   wordCount Int @default(0) @map("word_count")
   /// 章节状态：draft/generated/final
-  status String @db.VarChar(16)
+  status ChapterStatus
 
   /// 删除标识
   deletedFlag Boolean @default(false) @map("deleted_flag")

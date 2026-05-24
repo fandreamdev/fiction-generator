@@ -1,3 +1,14 @@
+enum CharacterSourceType {
+  /// 手动创建
+  MANUAL @map("manual")
+  /// 导入抽取
+  IMPORTED @map("imported")
+  /// AI 生成
+  AI @map("ai")
+
+  @@map("character_source_type")
+}
+
 model Character {
   /// 主键
   id BigInt @id @default(autoincrement())
@@ -28,7 +39,7 @@ model Character {
   /// 备注
   notes String?
   /// 来源类型：manual/imported/ai
-  sourceType String @db.VarChar(16) @map("source_type")
+  sourceType CharacterSourceType @map("source_type")
 
   /// 删除标识
   deletedFlag Boolean @default(false) @map("deleted_flag")

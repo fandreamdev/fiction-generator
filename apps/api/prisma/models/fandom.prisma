@@ -1,3 +1,18 @@
+enum FandomType {
+  /// 小说原作
+  NOVEL @map("novel")
+  /// 动画原作
+  ANIME @map("anime")
+  /// 游戏原作
+  GAME @map("game")
+  /// 影视原作
+  FILM @map("film")
+  /// 其他类型
+  OTHER @map("other")
+
+  @@map("fandom_type")
+}
+
 model Fandom {
   /// 主键
   id BigInt @id @default(autoincrement())
@@ -6,7 +21,7 @@ model Fandom {
   /// 原作或世界观名称
   name String @db.VarChar(128)
   /// 类型：novel/anime/game/film/other
-  type String @db.VarChar(16)
+  type FandomType
   /// 简介
   description String?
   /// 备注

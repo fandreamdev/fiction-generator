@@ -1,3 +1,14 @@
+enum ImportedChapterStatus {
+  /// 等待处理
+  PENDING @map("pending")
+  /// 已摘要
+  SUMMARIZED @map("summarized")
+  /// 已失败
+  FAILED @map("failed")
+
+  @@map("imported_chapter_status")
+}
+
 model ImportedChapter {
   /// 主键
   id BigInt @id @default(autoincrement())
@@ -16,7 +27,7 @@ model ImportedChapter {
   /// 字数
   wordCount Int? @map("word_count")
   /// 处理状态：pending/summarized/failed
-  status String @db.VarChar(16)
+  status ImportedChapterStatus
 
   /// 删除标识
   deletedFlag Boolean @default(false) @map("deleted_flag")

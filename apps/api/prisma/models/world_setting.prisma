@@ -1,3 +1,33 @@
+enum WorldSettingCategory {
+  /// 地点
+  LOCATION @map("location")
+  /// 组织
+  ORGANIZATION @map("organization")
+  /// 力量体系
+  POWER_SYSTEM @map("power_system")
+  /// 物品
+  ITEM @map("item")
+  /// 规则
+  RULE @map("rule")
+  /// 历史
+  HISTORY @map("history")
+  /// 其他
+  OTHER @map("other")
+
+  @@map("world_setting_category")
+}
+
+enum WorldSettingSourceType {
+  /// 手动创建
+  MANUAL @map("manual")
+  /// 导入抽取
+  IMPORTED @map("imported")
+  /// AI 生成
+  AI @map("ai")
+
+  @@map("world_setting_source_type")
+}
+
 model WorldSetting {
   /// 主键
   id BigInt @id @default(autoincrement())
@@ -8,7 +38,7 @@ model WorldSetting {
   /// 所属小说主键，可为空表示原作级设定
   novelId BigInt? @map("novel_id")
   /// 设定分类：location/organization/power_system/item/rule/history/other
-  category String @db.VarChar(32)
+  category WorldSettingCategory
   /// 设定名称
   name String @db.VarChar(128)
   /// 设定描述
@@ -18,7 +48,7 @@ model WorldSetting {
   /// 备注
   notes String?
   /// 来源类型：manual/imported/ai
-  sourceType String @db.VarChar(16) @map("source_type")
+  sourceType WorldSettingSourceType @map("source_type")
 
   /// 删除标识
   deletedFlag Boolean @default(false) @map("deleted_flag")
