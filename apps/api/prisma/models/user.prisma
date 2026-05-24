@@ -1,0 +1,19 @@
+model User {
+  /// 主键
+  id BigInt @id @default(autoincrement())
+  /// 邮箱，登录账号
+  email String @db.VarChar(128) @unique
+  /// 加密后的密码，bcrypt cost=12
+  passwordHash String @db.VarChar(255) @map("password_hash")
+  /// 显示名称
+  nickname String @db.VarChar(64) @default("小说家")
+  
+  /// 删除标识
+  deletedFlag Boolean @default(false) @map("deleted_flag")
+  /// 创建时间
+  createAt DateTime @db.Timestamptz(3) @default(now()) @map("create_at")
+  /// 更新时间
+  updateAt DateTime @updatedAt @db.Timestamptz(3) @map("update_at")
+
+  @@map("users")
+}

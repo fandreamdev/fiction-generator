@@ -1,0 +1,38 @@
+model ExtractionCandidate {
+  /// 主键
+  id BigInt @id @default(autoincrement())
+  /// 所属用户主键
+  userId BigInt @map("user_id")
+  /// 所属原作或世界观主键
+  fandomId BigInt @map("fandom_id")
+  /// 所属导入任务主键
+  importTaskId BigInt @map("import_task_id")
+  /// 来源导入章节主键
+  sourceChapterId BigInt @map("source_chapter_id")
+  /// 实体类型：CHARACTER/WORLD_SETTING/EVENT
+  entityType String @db.VarChar(16) @map("entity_type")
+  /// 候选实体名称
+  name String @db.VarChar(128)
+  /// 候选实体结构化内容
+  contentJson Json @map("content_json") @db.JsonB
+  /// 抽取置信度，范围 0.00-1.00
+  confidence Decimal? @db.Decimal(3, 2)
+  /// 审核状态：pending/approved/rejected
+  status String @db.VarChar(16)
+  /// 合并目标实体主键
+  targetEntityId BigInt? @map("target_entity_id")
+
+  /// 删除标识
+  deletedFlag Boolean @default(false) @map("deleted_flag")
+  /// 创建时间
+  createAt DateTime @db.Timestamptz(3) @default(now()) @map("create_at")
+  /// 更新时间
+  updateAt DateTime @updatedAt @db.Timestamptz(3) @map("update_at")
+
+  @@index([userId])
+  @@index([fandomId])
+  @@index([importTaskId])
+  @@index([sourceChapterId])
+  @@index([fandomId, entityType, status])
+  @@map("extraction_candidates")
+}

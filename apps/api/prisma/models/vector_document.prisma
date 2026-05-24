@@ -1,0 +1,33 @@
+model VectorDocument {
+  /// 主键
+  id BigInt @id @default(autoincrement())
+  /// 所属用户主键
+  userId BigInt @map("user_id")
+  /// 所属原作或世界观主键，可为空
+  fandomId BigInt? @map("fandom_id")
+  /// 所属小说主键，可为空
+  novelId BigInt? @map("novel_id")
+  /// 来源类型：IMPORTED_CHAPTER_SUMMARY/CHARACTER/WORLD_SETTING/CHAPTER_SUMMARY/WRITING_STYLE
+  sourceType String @db.VarChar(32) @map("source_type")
+  /// 来源实体主键
+  sourceId BigInt @map("source_id")
+  /// 向量化文本块
+  chunkText String @map("chunk_text")
+  /// pgvector 向量数据
+  embedding Unsupported("vector(1536)")?
+  /// 向量元数据
+  metadata Json? @db.JsonB
+
+  /// 删除标识
+  deletedFlag Boolean @default(false) @map("deleted_flag")
+  /// 创建时间
+  createAt DateTime @db.Timestamptz(3) @default(now()) @map("create_at")
+  /// 更新时间
+  updateAt DateTime @updatedAt @db.Timestamptz(3) @map("update_at")
+
+  @@index([userId])
+  @@index([fandomId])
+  @@index([novelId])
+  @@index([userId, fandomId, sourceType])
+  @@map("vector_documents")
+}

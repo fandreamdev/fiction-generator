@@ -1,0 +1,36 @@
+model GenerationTask {
+  /// 主键
+  id BigInt @id @default(autoincrement())
+  /// 所属用户主键
+  userId BigInt @map("user_id")
+  /// 所属小说主键，可为空
+  novelId BigInt? @map("novel_id")
+  /// 所属章节主键，可为空
+  chapterId BigInt? @map("chapter_id")
+  /// 任务类型：IMPORT/SUMMARY/EXTRACT/GENERATE_CHAPTER/GENERATE_CHAPTER_SUMMARY/EMBEDDING
+  taskType String @db.VarChar(32) @map("task_type")
+  /// 任务状态：pending/running/success/failed
+  status String @db.VarChar(16)
+  /// 使用的模型名称
+  modelName String? @db.VarChar(64) @map("model_name")
+  /// 提示词文本
+  promptText String? @map("prompt_text")
+  /// 生成结果文本
+  resultText String? @map("result_text")
+  /// token 用量统计
+  tokenUsage Json? @map("token_usage") @db.JsonB
+  /// 错误信息
+  errorMessage String? @map("error_message")
+
+  /// 删除标识
+  deletedFlag Boolean @default(false) @map("deleted_flag")
+  /// 创建时间
+  createAt DateTime @db.Timestamptz(3) @default(now()) @map("create_at")
+  /// 更新时间
+  updateAt DateTime @updatedAt @db.Timestamptz(3) @map("update_at")
+
+  @@index([userId])
+  @@index([novelId])
+  @@index([chapterId])
+  @@map("generation_tasks")
+}

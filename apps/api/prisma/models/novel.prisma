@@ -1,0 +1,33 @@
+model Novel {
+  /// 主键
+  id BigInt @id @default(autoincrement())
+  /// 所属用户主键
+  userId BigInt @map("user_id")
+  /// 所属原作或世界观主键，原创作品可为空
+  fandomId BigInt? @map("fandom_id")
+  /// 小说标题
+  title String @db.VarChar(128)
+  /// 小说类型：fanfic/original
+  type String @db.VarChar(16)
+  /// 同人类型：canon/if/rebirth/transmigration/modern_au/au/sequel
+  fanficType String? @db.VarChar(16) @map("fanfic_type")
+  /// 小说简介
+  description String?
+  /// 分歧点说明
+  divergencePoint String? @map("divergence_point")
+  /// 整体基调
+  tone String? @db.VarChar(64)
+  /// 写作状态：draft/writing/finished
+  status String @db.VarChar(16)
+
+  /// 删除标识
+  deletedFlag Boolean @default(false) @map("deleted_flag")
+  /// 创建时间
+  createAt DateTime @db.Timestamptz(3) @default(now()) @map("create_at")
+  /// 更新时间
+  updateAt DateTime @updatedAt @db.Timestamptz(3) @map("update_at")
+
+  @@index([userId])
+  @@index([fandomId])
+  @@map("novels")
+}

@@ -1,0 +1,24 @@
+model Fandom {
+  /// 主键
+  id BigInt @id @default(autoincrement())
+  /// 所属用户主键
+  userId BigInt @map("user_id")
+  /// 原作或世界观名称
+  name String @db.VarChar(128)
+  /// 类型：novel/anime/game/film/other
+  type String @db.VarChar(16)
+  /// 简介
+  description String?
+  /// 备注
+  notes String?
+
+  /// 删除标识
+  deletedFlag Boolean @default(false) @map("deleted_flag")
+  /// 创建时间
+  createAt DateTime @db.Timestamptz(3) @default(now()) @map("create_at")
+  /// 更新时间
+  updateAt DateTime @updatedAt @db.Timestamptz(3) @map("update_at")
+
+  @@index([userId])
+  @@map("fandoms")
+}

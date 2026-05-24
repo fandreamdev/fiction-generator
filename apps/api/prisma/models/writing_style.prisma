@@ -1,0 +1,33 @@
+model WritingStyle {
+  /// 主键
+  id BigInt @id @default(autoincrement())
+  /// 所属用户主键
+  userId BigInt @map("user_id")
+  /// 所属小说主键
+  novelId BigInt @map("novel_id")
+  /// 风格名称
+  name String @db.VarChar(128)
+  /// 风格描述
+  description String?
+  /// 语气风格
+  tone String? @db.VarChar(128)
+  /// 节奏风格
+  pacing String? @db.VarChar(128)
+  /// 对话风格
+  dialogueStyle String? @map("dialogue_style")
+  /// 描写风格
+  descriptionStyle String? @map("description_style")
+  /// 避免规则
+  avoidRules String? @map("avoid_rules")
+
+  /// 删除标识
+  deletedFlag Boolean @default(false) @map("deleted_flag")
+  /// 创建时间
+  createAt DateTime @db.Timestamptz(3) @default(now()) @map("create_at")
+  /// 更新时间
+  updateAt DateTime @updatedAt @db.Timestamptz(3) @map("update_at")
+
+  @@index([userId])
+  @@index([novelId])
+  @@map("writing_styles")
+}

@@ -1,0 +1,32 @@
+model ImportedChapter {
+  /// 主键
+  id BigInt @id @default(autoincrement())
+  /// 所属导入任务主键
+  importTaskId BigInt @map("import_task_id")
+  /// 所属原作或世界观主键
+  fandomId BigInt @map("fandom_id")
+  /// 导入章节序号
+  chapterNo Int @map("chapter_no")
+  /// 导入章节标题
+  title String? @db.VarChar(256)
+  /// 导入章节正文
+  content String?
+  /// 导入章节摘要
+  summary String?
+  /// 字数
+  wordCount Int? @map("word_count")
+  /// 处理状态：pending/summarized/failed
+  status String @db.VarChar(16)
+
+  /// 删除标识
+  deletedFlag Boolean @default(false) @map("deleted_flag")
+  /// 创建时间
+  createAt DateTime @db.Timestamptz(3) @default(now()) @map("create_at")
+  /// 更新时间
+  updateAt DateTime @updatedAt @db.Timestamptz(3) @map("update_at")
+
+  @@unique([importTaskId, chapterNo])
+  @@index([importTaskId])
+  @@index([fandomId])
+  @@map("imported_chapters")
+}
