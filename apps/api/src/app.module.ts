@@ -7,9 +7,11 @@ import {
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DemoUserMiddleware } from './common/demo-user.middleware';
+import { ConfigModule } from '@nestjs/config';
+import appConfig from './config/app';
 
 @Module({
-  imports: [],
+  imports: [ConfigModule.forRoot({ load: [appConfig], skipProcessEnv: true })],
   controllers: [AppController],
   providers: [AppService],
 })
