@@ -8,10 +8,14 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DemoUserMiddleware } from './common/demo-user.middleware';
 import { ConfigModule } from '@nestjs/config';
+import { PrismaModule } from './modules/prisma/prisma.module';
 import appConfig from './config/app';
 
 @Module({
-  imports: [ConfigModule.forRoot({ load: [appConfig], skipProcessEnv: true })],
+  imports: [
+    ConfigModule.forRoot({ load: [appConfig], skipProcessEnv: true }),
+    PrismaModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
