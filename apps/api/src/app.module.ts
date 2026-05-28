@@ -14,6 +14,8 @@ import appConfig from './config/app';
 import { BullModule } from '@nestjs/bullmq';
 import { ConfigType } from './config/configuration';
 import { BullMqType } from './config/bullmq';
+import { HealthController } from './health.controller';
+import { FandomModule } from './modules/fandom/fandom.module';
 
 @Module({
   imports: [
@@ -30,8 +32,9 @@ import { BullMqType } from './config/bullmq';
       inject: [ConfigService],
     }),
     QueueModule,
+    FandomModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, HealthController],
   providers: [AppService],
 })
 export class AppModule implements NestModule {

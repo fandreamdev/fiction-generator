@@ -4,7 +4,7 @@ import { DEMO_USER_ID } from './constants';
 
 declare module 'express' {
   interface Request {
-    userId?: number;
+    userId: number;
   }
 }
 
