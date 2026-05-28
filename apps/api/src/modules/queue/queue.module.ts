@@ -13,6 +13,6 @@ import {
       { name: GENERATE_QUEUE },
     ),
   ],
-  providers: [],
+  exports: [BullModule],
 })
 export class QueueModule {}
