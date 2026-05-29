@@ -24,6 +24,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   app.enableCors({ origin: 'http://localhost:5173' });
   app.useGlobalFilters(new HttpErrorFilter());
+  app.setGlobalPrefix('api');
 
   const configService = app.get(ConfigService<ConfigType>);
   const appConfig = configService.get<AppConfig>('app');
