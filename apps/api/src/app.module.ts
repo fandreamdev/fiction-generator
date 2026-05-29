@@ -16,6 +16,7 @@ import { ConfigType } from './config/configuration';
 import { BullMqType } from './config/bullmq';
 import { HealthController } from './health.controller';
 import { FandomModule } from './modules/fandom/fandom.module';
+import { NovelModule } from './modules/novel/novel.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { FandomModule } from './modules/fandom/fandom.module';
     }),
     QueueModule,
     FandomModule,
+    NovelModule,
   ],
   controllers: [AppController, HealthController],
   providers: [AppService],
