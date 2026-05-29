@@ -11,11 +11,11 @@ enum ImportedChapterStatus {
 
 model ImportedChapter {
   /// 主键
-  id BigInt @id @default(autoincrement())
+  id Int @id @default(autoincrement())
   /// 所属导入任务主键
-  importTaskId BigInt @map("import_task_id")
+  importTaskId Int @map("import_task_id")
   /// 所属原作或世界观主键
-  fandomId BigInt @map("fandom_id")
+  fandomId Int @map("fandom_id")
   /// 导入章节序号
   chapterNo Int @map("chapter_no")
   /// 导入章节标题

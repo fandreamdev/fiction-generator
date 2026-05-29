@@ -1,6 +1,6 @@
 model User {
   /// 主键
-  id BigInt @id @default(autoincrement())
+  id Int @id @default(autoincrement())
   /// 邮箱，登录账号
   email String @db.VarChar(128) @unique
   /// 加密后的密码，bcrypt cost=12

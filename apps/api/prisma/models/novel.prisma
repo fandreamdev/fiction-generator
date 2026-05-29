@@ -39,11 +39,11 @@ enum NovelStatus {
 
 model Novel {
   /// 主键
-  id BigInt @id @default(autoincrement())
+  id Int @id @default(autoincrement())
   /// 所属用户主键
-  userId BigInt @map("user_id")
+  userId Int @map("user_id")
   /// 所属原作或世界观主键，原创作品可为空
-  fandomId BigInt? @map("fandom_id")
+  fandomId Int? @map("fandom_id")
   /// 小说标题
   title String @db.VarChar(128)
   /// 小说类型：fanfic/original

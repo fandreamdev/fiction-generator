@@ -22,15 +22,15 @@ enum ExtractionCandidateStatus {
 
 model ExtractionCandidate {
   /// 主键
-  id BigInt @id @default(autoincrement())
+  id Int @id @default(autoincrement())
   /// 所属用户主键
-  userId BigInt @map("user_id")
+  userId Int @map("user_id")
   /// 所属原作或世界观主键
-  fandomId BigInt @map("fandom_id")
+  fandomId Int @map("fandom_id")
   /// 所属导入任务主键
-  importTaskId BigInt @map("import_task_id")
+  importTaskId Int @map("import_task_id")
   /// 来源导入章节主键
-  sourceChapterId BigInt @map("source_chapter_id")
+  sourceChapterId Int @map("source_chapter_id")
   /// 实体类型：CHARACTER/WORLD_SETTING/EVENT
   entityType ExtractionCandidateEntityType @map("entity_type")
   /// 候选实体名称
@@ -42,7 +42,7 @@ model ExtractionCandidate {
   /// 审核状态：pending/approved/rejected
   status ExtractionCandidateStatus
   /// 合并目标实体主键
-  targetEntityId BigInt? @map("target_entity_id")
+  targetEntityId Int? @map("target_entity_id")
 
   /// 删除标识
   deletedFlag Boolean @default(false) @map("deleted_flag")

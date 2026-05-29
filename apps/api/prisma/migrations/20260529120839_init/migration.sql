@@ -50,9 +50,9 @@ CREATE TYPE "world_setting_source_type" AS ENUM ('manual', 'imported', 'ai');
 
 -- CreateTable
 CREATE TABLE "chapters" (
-    "id" BIGSERIAL NOT NULL,
-    "novel_id" BIGINT NOT NULL,
-    "volume_id" BIGINT NOT NULL,
+    "id" SERIAL NOT NULL,
+    "novel_id" INTEGER NOT NULL,
+    "volume_id" INTEGER NOT NULL,
     "chapter_no" INTEGER NOT NULL,
     "title" VARCHAR(256) NOT NULL,
     "outline" TEXT,
@@ -69,10 +69,10 @@ CREATE TABLE "chapters" (
 
 -- CreateTable
 CREATE TABLE "characters" (
-    "id" BIGSERIAL NOT NULL,
-    "user_id" BIGINT NOT NULL,
-    "fandom_id" BIGINT NOT NULL,
-    "novel_id" BIGINT,
+    "id" SERIAL NOT NULL,
+    "user_id" INTEGER NOT NULL,
+    "fandom_id" INTEGER NOT NULL,
+    "novel_id" INTEGER,
     "name" VARCHAR(128) NOT NULL,
     "aliases" TEXT[] DEFAULT ARRAY[]::TEXT[],
     "role" VARCHAR(32),
@@ -93,17 +93,17 @@ CREATE TABLE "characters" (
 
 -- CreateTable
 CREATE TABLE "extraction_candidates" (
-    "id" BIGSERIAL NOT NULL,
-    "user_id" BIGINT NOT NULL,
-    "fandom_id" BIGINT NOT NULL,
-    "import_task_id" BIGINT NOT NULL,
-    "source_chapter_id" BIGINT NOT NULL,
+    "id" SERIAL NOT NULL,
+    "user_id" INTEGER NOT NULL,
+    "fandom_id" INTEGER NOT NULL,
+    "import_task_id" INTEGER NOT NULL,
+    "source_chapter_id" INTEGER NOT NULL,
     "entity_type" "extraction_candidate_entity_type" NOT NULL,
     "name" VARCHAR(128) NOT NULL,
     "content_json" JSONB NOT NULL,
     "confidence" DECIMAL(3,2),
     "status" "extraction_candidate_status" NOT NULL,
-    "target_entity_id" BIGINT,
+    "target_entity_id" INTEGER,
     "deleted_flag" BOOLEAN NOT NULL DEFAULT false,
     "created_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMPTZ(3) NOT NULL,
@@ -113,8 +113,8 @@ CREATE TABLE "extraction_candidates" (
 
 -- CreateTable
 CREATE TABLE "fandoms" (
-    "id" BIGSERIAL NOT NULL,
-    "user_id" BIGINT NOT NULL,
+    "id" SERIAL NOT NULL,
+    "user_id" INTEGER NOT NULL,
     "name" VARCHAR(128) NOT NULL,
     "type" "fandom_type" NOT NULL,
     "description" TEXT,
@@ -128,10 +128,10 @@ CREATE TABLE "fandoms" (
 
 -- CreateTable
 CREATE TABLE "generation_tasks" (
-    "id" BIGSERIAL NOT NULL,
-    "user_id" BIGINT NOT NULL,
-    "novel_id" BIGINT,
-    "chapter_id" BIGINT,
+    "id" SERIAL NOT NULL,
+    "user_id" INTEGER NOT NULL,
+    "novel_id" INTEGER,
+    "chapter_id" INTEGER,
     "task_type" "generation_task_type" NOT NULL,
     "status" "generation_task_status" NOT NULL,
     "model_name" VARCHAR(64),
@@ -148,9 +148,9 @@ CREATE TABLE "generation_tasks" (
 
 -- CreateTable
 CREATE TABLE "import_tasks" (
-    "id" BIGSERIAL NOT NULL,
-    "user_id" BIGINT NOT NULL,
-    "fandom_id" BIGINT NOT NULL,
+    "id" SERIAL NOT NULL,
+    "user_id" INTEGER NOT NULL,
+    "fandom_id" INTEGER NOT NULL,
     "file_name" VARCHAR(256),
     "source_type" "import_task_source_type" NOT NULL,
     "status" "import_task_status" NOT NULL,
@@ -166,9 +166,9 @@ CREATE TABLE "import_tasks" (
 
 -- CreateTable
 CREATE TABLE "imported_chapters" (
-    "id" BIGSERIAL NOT NULL,
-    "import_task_id" BIGINT NOT NULL,
-    "fandom_id" BIGINT NOT NULL,
+    "id" SERIAL NOT NULL,
+    "import_task_id" INTEGER NOT NULL,
+    "fandom_id" INTEGER NOT NULL,
     "chapter_no" INTEGER NOT NULL,
     "title" VARCHAR(256),
     "content" TEXT,
@@ -184,9 +184,9 @@ CREATE TABLE "imported_chapters" (
 
 -- CreateTable
 CREATE TABLE "novels" (
-    "id" BIGSERIAL NOT NULL,
-    "user_id" BIGINT NOT NULL,
-    "fandom_id" BIGINT,
+    "id" SERIAL NOT NULL,
+    "user_id" INTEGER NOT NULL,
+    "fandom_id" INTEGER,
     "title" VARCHAR(128) NOT NULL,
     "type" "novel_type" NOT NULL,
     "fanfic_type" "novel_fanfic_type",
@@ -203,7 +203,7 @@ CREATE TABLE "novels" (
 
 -- CreateTable
 CREATE TABLE "users" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "email" VARCHAR(128) NOT NULL,
     "password_hash" VARCHAR(255) NOT NULL,
     "nickname" VARCHAR(64) NOT NULL DEFAULT '小说家',
@@ -216,12 +216,12 @@ CREATE TABLE "users" (
 
 -- CreateTable
 CREATE TABLE "vector_documents" (
-    "id" BIGSERIAL NOT NULL,
-    "user_id" BIGINT NOT NULL,
-    "fandom_id" BIGINT,
-    "novel_id" BIGINT,
+    "id" SERIAL NOT NULL,
+    "user_id" INTEGER NOT NULL,
+    "fandom_id" INTEGER,
+    "novel_id" INTEGER,
     "source_type" "vector_document_source_type" NOT NULL,
-    "source_id" BIGINT NOT NULL,
+    "source_id" INTEGER NOT NULL,
     "chunk_text" TEXT NOT NULL,
     "embedding" vector(1536),
     "metadata" JSONB,
@@ -234,8 +234,8 @@ CREATE TABLE "vector_documents" (
 
 -- CreateTable
 CREATE TABLE "volumes" (
-    "id" BIGSERIAL NOT NULL,
-    "novel_id" BIGINT NOT NULL,
+    "id" SERIAL NOT NULL,
+    "novel_id" INTEGER NOT NULL,
     "title" VARCHAR(128) NOT NULL,
     "order_index" INTEGER NOT NULL,
     "summary" TEXT,
@@ -248,10 +248,10 @@ CREATE TABLE "volumes" (
 
 -- CreateTable
 CREATE TABLE "world_settings" (
-    "id" BIGSERIAL NOT NULL,
-    "user_id" BIGINT NOT NULL,
-    "fandom_id" BIGINT NOT NULL,
-    "novel_id" BIGINT,
+    "id" SERIAL NOT NULL,
+    "user_id" INTEGER NOT NULL,
+    "fandom_id" INTEGER NOT NULL,
+    "novel_id" INTEGER,
     "category" "world_setting_category" NOT NULL,
     "name" VARCHAR(128) NOT NULL,
     "description" TEXT,
@@ -267,9 +267,9 @@ CREATE TABLE "world_settings" (
 
 -- CreateTable
 CREATE TABLE "writing_styles" (
-    "id" BIGSERIAL NOT NULL,
-    "user_id" BIGINT NOT NULL,
-    "novel_id" BIGINT NOT NULL,
+    "id" SERIAL NOT NULL,
+    "user_id" INTEGER NOT NULL,
+    "novel_id" INTEGER NOT NULL,
     "name" VARCHAR(128) NOT NULL,
     "description" TEXT,
     "tone" VARCHAR(128),

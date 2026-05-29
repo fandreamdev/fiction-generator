@@ -11,11 +11,11 @@ enum ChapterStatus {
 
 model Chapter {
   /// 主键
-  id BigInt @id @default(autoincrement())
+  id Int @id @default(autoincrement())
   /// 所属小说主键
-  novelId BigInt @map("novel_id")
+  novelId Int @map("novel_id")
   /// 所属分卷主键
-  volumeId BigInt @map("volume_id")
+  volumeId Int @map("volume_id")
   /// 章节序号
   chapterNo Int @map("chapter_no")
   /// 章节标题

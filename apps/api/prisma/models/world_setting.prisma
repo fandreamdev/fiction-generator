@@ -30,13 +30,13 @@ enum WorldSettingSourceType {
 
 model WorldSetting {
   /// 主键
-  id BigInt @id @default(autoincrement())
+  id Int @id @default(autoincrement())
   /// 所属用户主键
-  userId BigInt @map("user_id")
+  userId Int @map("user_id")
   /// 所属原作或世界观主键
-  fandomId BigInt @map("fandom_id")
+  fandomId Int @map("fandom_id")
   /// 所属小说主键，可为空表示原作级设定
-  novelId BigInt? @map("novel_id")
+  novelId Int? @map("novel_id")
   /// 设定分类：location/organization/power_system/item/rule/history/other
   category WorldSettingCategory
   /// 设定名称

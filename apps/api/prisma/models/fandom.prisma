@@ -15,9 +15,9 @@ enum FandomType {
 
 model Fandom {
   /// 主键
-  id BigInt @id @default(autoincrement())
+  id Int @id @default(autoincrement())
   /// 所属用户主键
-  userId BigInt @map("user_id")
+  userId Int @map("user_id")
   /// 原作或世界观名称
   name String @db.VarChar(128)
   /// 类型：novel/anime/game/film/other

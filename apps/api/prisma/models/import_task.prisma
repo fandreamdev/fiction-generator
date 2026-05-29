@@ -26,11 +26,11 @@ enum ImportTaskStatus {
 
 model ImportTask {
   /// 主键
-  id BigInt @id @default(autoincrement())
+  id Int @id @default(autoincrement())
   /// 所属用户主键
-  userId BigInt @map("user_id")
+  userId Int @map("user_id")
   /// 所属原作或世界观主键
-  fandomId BigInt @map("fandom_id")
+  fandomId Int @map("fandom_id")
   /// 导入文件名
   fileName String? @db.VarChar(256) @map("file_name")
   /// 来源类型：txt/markdown/paste
