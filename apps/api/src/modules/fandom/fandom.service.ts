@@ -1,30 +1,45 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateFandomDto } from './dto/create-fandom.dto';
-import { UpdateFandomDto } from './dto/update-fandom.dto';
+import { PrismaService } from '../prisma/prisma.service';
+import { FandomModel } from 'generated/prisma/models';
 
 @Injectable()
 export class FandomService {
-  create(userId: number, createFandomDto: CreateFandomDto) {
-    console.log(userId, createFandomDto);
-    return 'This action adds a new fandom';
+  constructor(private readonly prismaService: PrismaService) {}
+  async create(
+    userId: number,
+    createFandomDto: CreateFandomDto,
+  ): Promise<FandomModel> {
+    const fandom = await this.prismaService.fandom.create({
+      data: {
+        ...createFandomDto,
+        userId,
+      },
+    });
+    return fandom;
   }
 
-  list(userId: number) {
-    console.log(userId);
-    return `This action returns all fandom`;
+  list(userId: number): Promise<FandomModel[]> {
+    return this.prismaService.fandom.findMany({
+      where: {
+        userId,
+        deletedFlag: false,
+      },
+      orderBy: { createdAt: 'desc' },
+    });
   }
 
-  getById(userId: number, id: number) {
-    return `This action returns a #${id} fandom`;
-  }
-
-  update(id: number, updateFandomDto: UpdateFandomDto) {
-    console.log(id, updateFandomDto);
-
-    return `This action updates a #${id} fandom`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} fandom`;
+  async getById(userId: number, id: number): Promise<FandomModel> {
+    const fandom = await this.prismaService.fandom.findFirst({
+      where: {
+        id,
+        userId,
+        deletedFlag: false,
+      },
+    });
+    if (!fandom) {
+      throw new NotFoundException('当前 fandom 不存在！');
+    }
+    return fandom;
   }
 }

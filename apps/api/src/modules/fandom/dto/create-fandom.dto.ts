@@ -1,12 +1,13 @@
-import { IsString, MaxLength, IsOptional, IsIn } from 'class-validator';
+import { IsString, MaxLength, IsOptional, IsEnum } from 'class-validator';
+import { FandomType } from 'generated/prisma/enums';
 export class CreateFandomDto {
   @IsString()
   @MaxLength(128)
   name!: string;
 
   @IsOptional()
-  @IsIn(['novel', 'anime', 'game', 'film', 'other'])
-  type?: string = 'novel';
+  @IsEnum(FandomType)
+  type: FandomType = FandomType.NOVEL;
 
   @IsOptional()
   @IsString()
