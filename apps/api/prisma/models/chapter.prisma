@@ -26,6 +26,12 @@ model Chapter {
   content String?
   /// 章节摘要
   summary String?
+  /// 本章写作目标
+  goal String? @map("goal")
+  /// 额外补充说明
+  extraNotes String? @map("extra_notes")
+  /// 本章出场人物主键列表
+  appearingCharacterIds Int[] @default([]) @map("appearing_character_ids")
   /// 字数
   wordCount Int @default(0) @map("word_count")
   /// 章节状态：draft/generated/final

@@ -16,7 +16,7 @@ import {
   EMBEDDING_QUEUE,
   GENERATE_QUEUE,
   IMPORT_QUEUE,
-} from './modules/queue/queue.constants';
+} from './modules/import/queue.constants';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

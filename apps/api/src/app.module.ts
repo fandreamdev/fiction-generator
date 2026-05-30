@@ -9,7 +9,7 @@ import { AppService } from './app.service';
 import { DemoUserMiddleware } from './common/demo-user.middleware';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PrismaModule } from './modules/prisma/prisma.module';
-import { QueueModule } from './modules/queue/queue.module';
+import { QueueModule } from './modules/import/queue.module';
 import appConfig from './config/app';
 import { BullModule } from '@nestjs/bullmq';
 import { ConfigType } from './config/configuration';
@@ -17,6 +17,7 @@ import { BullMqType } from './config/bullmq';
 import { HealthController } from './health.controller';
 import { FandomModule } from './modules/fandom/fandom.module';
 import { NovelModule } from './modules/novel/novel.module';
+import { ChapterModule } from './modules/chapter/chapter.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { NovelModule } from './modules/novel/novel.module';
     QueueModule,
     FandomModule,
     NovelModule,
+    ChapterModule,
   ],
   controllers: [AppController, HealthController],
   providers: [AppService],
